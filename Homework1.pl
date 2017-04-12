@@ -1,12 +1,16 @@
+%Ex 1: return true if argument is list and false otherwise
 isList([_|_]).
 
+%Ex 2: prepend first argument to second argument
 prepend(A,B,[A|B]).
 
+%Ex 3: remove first instance of first argument from second argument
 remove(_,[],[]).
 remove(A,[A|T],T) :- !.
 remove(A,[H|T],[H|X]) :-
 	remove(A,T,X), !.
 
+%Ex 4: remove all instances of first argument from second argument
 filter(_,[],[]).
 filter(A,[A|T],R) :-
 	filter(A,T,R),
@@ -15,6 +19,7 @@ filter(A,[H|T],[H|X]) :-
 	filter(A,T,X),
 	!.
 
+%Ex 5: group and return all b, w, and r in first argument
 frenchFlag(A, X) :-
 	flag(A,[],[],[],X),
 	!.

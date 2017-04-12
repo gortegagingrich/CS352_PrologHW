@@ -6,23 +6,22 @@ prepend(A,B,[A|B]).
 
 %Ex 3: remove first instance of first argument from second argument
 remove(_,[],[]).
-remove(A,[A|T],T) :- !.
+remove(A,[A|T],T).
 remove(A,[H|T],[H|X]) :-
-	remove(A,T,X), !.
+	H \== A,
+	remove(A,T,X).
 
 %Ex 4: remove all instances of first argument from second argument
 filter(_,[],[]).
 filter(A,[A|T],R) :-
-	filter(A,T,R),
-	!.
+	filter(A,T,R).
 filter(A,[H|T],[H|X]) :-
 	filter(A,T,X),
-	!.
+	H \== A.
 
 %Ex 5: group and return all b, w, and r in first argument
 frenchFlag(A, X) :-
-	flag(A,[],[],[],X),
-	!.
+	flag(A,[],[],[],X).
 
 flag([], Acc1, Acc2, Acc3, X) :-
 	append(Acc1,Acc2,X0),
@@ -36,5 +35,8 @@ flag([H|T], Acc1, Acc2, Acc3, X) :-
 flag([H|T], Acc1, Acc2, Acc3, X) :-
 	H=r,
 	flag(T, Acc1, Acc2, [H|Acc3],X).
-flag([_|T], Acc1, Acc2, Acc3, X) :-
+flag([H|T], Acc1, Acc2, Acc3, X) :-
+	H \== b,
+	H \== w,
+	H \== r,
 	flag(T, Acc1, Acc2, Acc3, X).

@@ -1,8 +1,10 @@
 %Ex 1: return true if argument is list and false otherwise
+isList([]).
 isList([_|_]).
 
 %Ex 2: prepend first argument to second argument
-prepend(A,B,[A|B]).
+prepend(A,B,[A|B]) :-
+	isList(B).
 
 %Ex 3: remove first instance of first argument from second argument
 remove(_,[],[]).
@@ -21,22 +23,22 @@ filter(A,[H|T],[H|X]) :-
 
 %Ex 5: group and return all b, w, and r in first argument
 frenchFlag(A, X) :-
-	flag(A,[],[],[],X).
+	flag(A,[],[],X).
 
-flag([], Acc1, Acc2, Acc3, X) :-
-	append(Acc1,Acc2,X0),
-	append(X0,Acc3,X).
-flag([H|T], Acc1, Acc2, Acc3,X) :-
+flag([], Acc1, Acc2, X) :-
+	append(Acc1, Acc2, X).
+flag([H|T], Acc1, Acc2, X) :-
 	H=b,
-	flag(T, [H|Acc1], Acc2, Acc3, X).
-flag([H|T], Acc1, Acc2, Acc3, X) :-
+	flag(T,[b|Acc1],Acc2,X).
+flag([H|T], Acc1, Acc2, X) :-
 	H=w,
-	flag(T, Acc1, [H|Acc2], Acc3, X).
-flag([H|T], Acc1, Acc2, Acc3, X) :-
+	append(Acc1,[w],Acc3),
+	flag(T, Acc3, Acc2, X).
+flag([H|T], Acc1, Acc2, X) :-
 	H=r,
-	flag(T, Acc1, Acc2, [H|Acc3],X).
-flag([H|T], Acc1, Acc2, Acc3, X) :-
+	flag(T, Acc1, [r|Acc2], X).
+flag([H|T], Acc1, Acc2, X) :-
 	H \== b,
 	H \== w,
 	H \== r,
-	flag(T, Acc1, Acc2, Acc3, X).
+	flag(T, Acc1, Acc2, X).

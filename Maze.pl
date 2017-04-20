@@ -1,0 +1,11 @@
+door(a, b).
+door(b, c).
+door(c, d).
+door(d, e).
+door(e, b).
+door(e, f).
+door(e, g).
+door(k, j).
+trap(h, g).
+trap(h, b).
+trap(g, j).

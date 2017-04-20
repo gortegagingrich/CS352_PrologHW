@@ -1,15 +1,20 @@
 %predicate 1
 path(X,X,[]).
 path(X,Y,P) :-
-	X =\= Y,
-	(
-		door(X,X2);
-		door(X2,X)
-	),
-	notContains(X2,P),
-	path(X2,Y,[X|P]).
+	path2(X,Y,[],P).
 
-notContains(X, []).
+path2(X, X, Acc, Acc).
+path2(X, Y, Acc, P) :-
+	X \== Y,
+	doorExists(X,X2),
+	notContains(X2, P),
+	path2(X2,Y,[X|Acc],P).
+
+doorExists(X,Y) :-
+	door(X,Y);
+	door(Y,X).
+
+notContains(_, []).
 notContains(X, [H|T]) :-
-	H =\= X,
+	H \== X,
 	notContains(X,T).

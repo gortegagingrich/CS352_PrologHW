@@ -1,16 +1,20 @@
 %predicate 1
-path(X,X,[]).
-path(X,Y,P) :-
-	path2(X,Y,[],[],P1),
-	reverse(P1,[],P).
 
-path2(X, X, _, Acc, [X|Acc]).
+path(X,X,[X]).
+path(X,Y,P) :-
+	X \== Y,
+	path2(X,Y,[],[],P).
+
 path2(X, Y, Visited, Acc, P) :-
 	X \== Y,
 	notContains(X,Visited),
 	doorExists(X,X2),
-	path2(X2,Y,[X|Visited],[X|Acc], P).
-
+	append(Acc,[X],Acc2),
+	path2(X2,Y,[X|Visited],Acc2, P).
+path2(X, X, Visited, Acc, P) :-
+	[H|T] = Visited,
+	notContains(X,Acc),
+	append(Acc, [X], P).
 
 doorExists(X,Y) :-
 	door(X,Y);
@@ -21,6 +25,9 @@ notContains(X, [H|T]) :-
 	H \== X,
 	notContains(X,T).
 
-reverse([], Acc, Acc).
-reverse([H|T], Acc, X) :-
-	reverse(T,[H|Acc], X).
+%predicate 2
+noway(X,Y) :-
+	not(path(X,Y,_)).
+
+%predicate 3
+redundant(X,Y).

@@ -43,3 +43,40 @@ qsort([H|T],Y) :-
 	append(Y1,[H|Y2],Y).
 
 %% 4. term2list/2
+term2list(Term, [Functor|Args]) :-
+	functor(Term,Functor,Arity),
+	getArgs(Arity,Arity,Term,[],Args).
+
+getArgs(0,_,_,Acc,Acc).
+getArgs(Index, Max, Term, Acc, Args) :-
+	Index2 is Index - 1,
+	arg(Index,Term,Arg),
+	getArgs(Index2,Max,Term,[Arg|Acc],Args).
+
+%% 5. flattener/2
+flattener(X,Y) :-
+	flatten(X,[],Y).
+
+flatten([],Acc,Acc).
+flatten([H|T],Acc,Y) :-
+	atom(H),
+	append(Acc,[H],Acc2),
+	flatten(T,Acc2,Y).
+flatten([[H|T1]|T2], Acc, Y) :-
+	flatten([H|T1],[],Sublist),
+	append(Acc,Sublist,Acc2),
+	flatten(T2,Acc2,Y).
+
+%% 6. hanoi/1
+
+%% 7. a^n b^2n c^2n d^n language recognizer
+s --> [a], s, [d].
+s --> [a], b, [d].
+b --> [b], [b], [c], [c].
+b --> [b], [b], b, [c], [c].
+
+%% 8. generate parse tree for previous grammar
+ad(ad(AD)) --> [a], ad(AD), [d].
+ad(BC) --> bc(BC).
+bc(bc(BC)) --> [b], [b], bc(BC), [c], [c].
+bc([]) --> []. 
